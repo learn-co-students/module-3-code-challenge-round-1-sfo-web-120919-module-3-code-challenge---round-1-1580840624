@@ -11,9 +11,10 @@
 
   document.addEventListener('DOMContentLoaded', () => {
    
-     getImage().then(data => {
+     getImage().then(checkForErrors).then(resp => resp.json()).then(data => {
        setImageInfo(data)
-     })
+     }).catch(error => renderErrors(error))
+
      listenForLikeClick()
      listenForCommentFormSubmit()
     
@@ -26,7 +27,7 @@
     const likeSpan = document.querySelector("#likes")
     likeButton.addEventListener('click', function(){
             incrementInnerTextNum(likeSpan)
-            postLike(imageId)
+            postLike(imageId).then(checkForErrors).then(resp => resp.json()).catch(error => render(error))
     });
   }
 
@@ -38,14 +39,14 @@
         const newCommentObj = createCommentObject(commentContent)
         addCommentLiToDOM(makeCommentLi(newCommentObj))
         clearCommentForm()
-        postComment(imageId, commentContent)
+        postComment(imageId, commentContent).then(checkForErrors).then(resp => resp.json()).catch(error => renderErrors(error))
      })
   }
    
   // api communication functions
 
   function getImage() {
-    return fetch(imageURL).then(resp => resp.json())
+    return fetch(imageURL)
   }
 
   function postLike(imageId) {
@@ -57,7 +58,7 @@
       },
       body: JSON.stringify({image_id: imageId})
     }
-    return fetch(likeURL, configuration).then(resp => resp.json())
+    return fetch(likeURL, configuration)
   }
 
   function postComment(imageId, commentContent) {
@@ -72,7 +73,7 @@
         content: commentContent
       })
     }
-    return fetch(commentsURL, configuration).then(resp => resp.json()).catch(error => console.log(error))
+    return fetch(commentsURL, configuration)
   }
 
   // update dom
@@ -131,12 +132,22 @@
 
   // error handling
 
-   function checkForErrors(response) {
+   async function checkForErrors(response) {
        
          if (!response.ok) {
-           throw 
+           throw new Error("something went wrong.")
          }
 
+         return response
+
+   }
+
+   function renderErrors(error) {
+     const errorDiv = document.querySelector("#error")
+     errorDiv.innerText = error.message
+     setTimeout(() => {
+        errorDiv.innerText = ""
+     }, 5000)
    }
   
 
