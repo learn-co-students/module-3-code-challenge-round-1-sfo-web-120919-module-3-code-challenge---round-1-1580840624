@@ -57,7 +57,7 @@ function handleComment(event)
   .then(resp => resp.json())
   .then(data => console.log(data))
 
-  deleteComment(event);          //delete the comments for the image
+  // deleteComment(event);          //delete the comments for the image
 }
 
 //hit like button on page
