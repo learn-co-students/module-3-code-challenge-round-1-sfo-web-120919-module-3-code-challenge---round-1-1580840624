@@ -43,7 +43,7 @@ A user of your app must be able to do the following things:
 
 ## Functionality demo
 
-![Example](./animated_challenge_example.gif "Example Functionality")
+![Example](./animate0d_challenge_example.gif "Example Functionality")
 
 ## Deliverables and How to Approach
 
@@ -62,6 +62,8 @@ When the page loads, you will need to make a request to the API to get the data 
 Visit https://randopic.herokuapp.com/ in your web browser. The backend will assign you your very own `image_id`.  **THIS IS YOUR ASSIGNED IMAGE. This prevents your classmates from editing your images and vice versa**.
 
 **Before you start anything else, locate the variable `imageId` in the `src/index.js`. Replace the value of the variable with your image id, and use it as the `/:id` parameter in your initial GET request.** This will be the image you'll be working with for this code challenge.
+
+HERE IS MY API IMA
 
 ```js
 GET 'https://randopic.herokuapp.com/images/:id'
